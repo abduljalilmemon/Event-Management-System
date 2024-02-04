@@ -5,7 +5,7 @@ from django.shortcuts import render
 # Create your views here.
 def login(request):
     _message = 'Please sign in'
-    a = 'app/login.html'
+    template_name = 'app/login.html'
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -15,6 +15,12 @@ def login(request):
             return render(request, 'app/login.html')
         else:
             _message = 'Invalid username or password, please try again.'
-    return render(request, a, context={'message': _message})
+    return render(request, template_name, context={'message': _message})
+
+
+def home(request):
+    template_name = 'app/home.html'
+    return render(request, template_name)
+
 
 # Create your views here.
