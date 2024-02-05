@@ -23,4 +23,9 @@ def home(request):
     return render(request, template_name)
 
 
+def post_announcement(request):
+    template_name = 'app/announcement.html'
+    return render(request, template_name)
+
+
 # Create your views here.
