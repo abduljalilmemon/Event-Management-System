@@ -22,18 +22,14 @@
             <div class="col-md-12 mb-5" data-aos="fade">
 
 
-                <form action="#" class="p-5 bg-white" style="margin-top: -150px;">
-
-
+                <form action="{% url 'event' %}" method="POST" class="p-5 bg-white" style="margin-top: -150px;">
+                    {% csrf_token %}
                     <div class="row form-group">
                         <div class="col-md-12">
                             <label class="text-black" for="title">Title</label>
-                            <input type="text" id="title" class="form-control">
+                            <input type="text" name="title" id="title" class="form-control">
                         </div>
                     </div>
-
-
-
                     <div class="row form-group">
                         <div class="col-md-12">
                             <label class="text-black" for="description">Description</label>
@@ -41,19 +37,16 @@
                                       placeholder="Write event detail here..."></textarea>
                         </div>
                     </div>
-
                     <div class="row form-group">
                         <div class="col-md-12">
                             <label class="text-black" for="time">Time</label>
-                            <input type="datetime-local" id="time" class="form-control">
+                            <input name="time" type="datetime-local" id="time" class="form-control">
                         </div>
                     </div>
-
                     <div class="row form-group">
-
                         <div class="col-md-12">
                             <label class="text-black" for="location">Location</label>
-                            <input type="subject" id="location" class="form-control">
+                            <input type="text" name="location" id="location" class="form-control">
                         </div>
                     </div>
 

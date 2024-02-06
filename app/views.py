@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login as auth_login
 from django.shortcuts import render
+from .models import Event
 
 
 # Create your views here.
@@ -23,8 +24,14 @@ def home(request):
     return render(request, template_name)
 
 
-def post_announcement(request):
-    template_name = 'app/announcement.html'
+def event(request):
+    template_name = 'app/event.html'
+    if request.method == 'POST':
+        title = request.POST.get("title")
+        description = request.POST.get("description")
+        time = request.POST.get("time")
+        location = request.POST.get("location")
+        Event(name=title, location=location, time=time, description=description).save()
     return render(request, template_name)
 
 
