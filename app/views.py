@@ -35,7 +35,8 @@ def event(request):
         time = request.POST.get("time")
         location = request.POST.get("location")
         if request.user.staff:
-            Event(name=title, location=location, time=time, description=description, posted_by=request.user.staff).save()
+            Event(name=title, location=location, time=time, description=description,
+                  posted_by=request.user.staff).save()
     return render(request, template_name)
 
 
@@ -52,5 +53,13 @@ def login(request):
             _message = 'Invalid username or password, please try again.'
     template_name = 'app/login.html'
     return render(request, template_name)
+
+
+def get_detail(request):
+    template_name = 'app/detail.html'
+    if request.method == 'POST':
+        _id = request.POST.get('event')
+        _event = Event.objects.get(id=_id)
+    return render(request, template_name, {"event": _event})
 
 # Create your views here.

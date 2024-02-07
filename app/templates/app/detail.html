@@ -3,14 +3,15 @@
 {% load static %}
 
 
-<div class="site-blocks-cover inner-page-cover overlay"
-     style="background-image: url({% static '/app/images/img_01.jpg' %});" data-stellar-background-ratio="0.5">
+<div class="site-blocks-cover inner-page-cover overlay" style="background-image: url(images/hero_1.jpg);"
+     data-aos="fade" data-stellar-background-ratio="0.5">
     <div class="container">
         <div class="row align-items-center justify-content-center text-center">
             <div class="col-md-10" data-aos="fade-up" data-aos-delay="400">
                 <div class="row justify-content-center">
                     <div class="col-md-8 text-center">
-                        <h1>Coming Events</h1>
+                        <h1>{{event.name}}</h1>
+                        <p class="mb-0">{{event.location}}</p>
                     </div>
                 </div>
             </div>
@@ -18,34 +19,20 @@
     </div>
 </div>
 
-<div class="site-section bg-light">
+<div class="site-section">
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
-                {% for event in events %}
-                <div class="d-block d-md-flex listing-horizontal">
-                    <a href="#" class="img d-block" style="background-image: url('images/img_2.jpg')">
-                        <span class="category">{{event.time}}</span>
-                    </a>
-                    <div class="lh-content">
-                        <h3><a href="#">{{event.name}}</a></h3>
-                        <h6><a href="#">{{event.location}}</a></h6>
-                        <p>{{event.description}}</p>
-                    </div>
-                    <form action="{% url 'detail' %}" class="p-5 bg-white" method="post">
-                        <button class="btn btn-primary text-white" type="submit" name="event" value="{{event.id}}">more detail</button>
-                    </form>
-                </div>
-                {% endfor %}
 
+                <div class="mb-5 border-bottom pb-5">
+                    <p><img src="{% static '/app/images/event_01.png' %}" alt="Image" class="img-fluid mb-4"></p>
+                    <h3>Description</h3>
+                    <p>{{event.description}}</p>
 
-                <div class="col-12 mt-5 text-center">
-                    <div class="custom-pagination">
-                        <span>1</span>
-                        <a href="#">2</a>
-                        <a href="#">3</a>
-                        <span class="more-page">...</span>
-                        <a href="#">10</a>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a href="#" class="btn btn-primary btn-md text-white">Contact Us</a>
+                        </div>
                     </div>
                 </div>
 
@@ -135,65 +122,5 @@
         </div>
     </div>
 </div>
-
-<div class="site-section">
-    <div class="container">
-        <div class="row justify-content-center mb-5">
-            <div class="col-md-7 text-center border-primary">
-                <h2 class="font-weight-light text-primary">Popular Categories</h2>
-                <p class="color-black-opacity-5">Far far away, behind the word mountains, far from the countries Vokalia
-                    and Consonantia, there live the blind texts.</p>
-            </div>
-        </div>
-
-        <div class="row align-items-stretch">
-            <div class="col-6 col-sm-6 col-md-4 mb-4 mb-lg-0 col-lg-2">
-                <a href="#" class="popular-category h-100">
-                    <span class="icon mb-3"><span class="flaticon-hotel"></span></span>
-                    <span class="caption mb-2 d-block">Hotels</span>
-                    <span class="number">4,89</span>
-                </a>
-            </div>
-            <div class="col-6 col-sm-6 col-md-4 mb-4 mb-lg-0 col-lg-2">
-                <a href="#" class="popular-category h-100">
-                    <span class="icon mb-3"><span class="flaticon-microphone"></span></span>
-                    <span class="caption mb-2 d-block">Events</span>
-                    <span class="number">482</span>
-                </a>
-            </div>
-            <div class="col-6 col-sm-6 col-md-4 mb-4 mb-lg-0 col-lg-2">
-                <a href="#" class="popular-category h-100">
-                    <span class="icon mb-3"><span class="flaticon-flower"></span></span>
-                    <span class="caption mb-2 d-block">Spa</span>
-                    <span class="number">194</span>
-                </a>
-            </div>
-            <div class="col-6 col-sm-6 col-md-4 mb-4 mb-lg-0 col-lg-2">
-                <a href="#" class="popular-category h-100">
-                    <span class="icon mb-3"><span class="flaticon-restaurant"></span></span>
-                    <span class="caption mb-2 d-block">Stores</span>
-                    <span class="number">1,472</span>
-                </a>
-            </div>
-            <div class="col-6 col-sm-6 col-md-4 mb-4 mb-lg-0 col-lg-2">
-                <a href="#" class="popular-category h-100">
-                    <span class="icon mb-3"><span class="flaticon-cutlery"></span></span>
-                    <span class="caption mb-2 d-block">Restaurants</span>
-                    <span class="number">439</span>
-                </a>
-            </div>
-            <div class="col-6 col-sm-6 col-md-4 mb-4 mb-lg-0 col-lg-2">
-                <a href="#" class="popular-category h-100">
-                    <span class="icon mb-3"><span class="flaticon-bike"></span></span>
-                    <span class="caption mb-2 d-block">Other</span>
-                    <span class="number">692</span>
-                </a>
-            </div>
-        </div>
-
-
-    </div>
-</div>
-
 
 {% endblock %}
