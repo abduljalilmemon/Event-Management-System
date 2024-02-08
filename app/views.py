@@ -5,9 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 import csv
-import os
 import io
-from django.views import View
 from datetime import datetime
 from django.http import HttpResponse
 from .forms import ImportForm
@@ -35,6 +33,25 @@ def home(request):
             paginated_data = paginator.page(paginator.num_pages)
         return render(request, template_name, {"events": paginated_data, "query": query})
     events = Event.objects.all()[:10]
+    return render(request, template_name, {"events": events})
+
+
+@login_required
+def get_my_event(request):
+    template_name = 'app/myevent.html'
+    if request.method == 'GET':
+        query = request.GET.get('search', '')
+        events = Event.objects.filter(name__icontains=query, posted_by=request.user.staff)
+        paginator = Paginator(events, 10)
+        page = request.GET.get('page')
+        try:
+            paginated_data = paginator.page(page)
+        except PageNotAnInteger:
+            paginated_data = paginator.page(1)
+        except EmptyPage:
+            paginated_data = paginator.page(paginator.num_pages)
+        return render(request, template_name, {"events": paginated_data, "query": query})
+    events = Event.objects.filer(posted_by=request.user.staff)[:10]
     return render(request, template_name, {"events": events})
 
 
