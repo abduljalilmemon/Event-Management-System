@@ -2,6 +2,8 @@ from django.contrib.auth import authenticate, login as auth_login
 from django.shortcuts import render
 from .models import Event, Participation, Participant
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 import csv
 import os
 import io
@@ -31,8 +33,18 @@ def home(request):
     template_name = 'app/home.html'
     if request.method == 'GET':
         query = request.GET.get('search', '')
-        events = Event.objects.filter(name__icontains=query)[:10]
-        return render(request, template_name, {"events": events})
+        print(query)
+        events = Event.objects.filter(name__icontains=query)
+        paginator = Paginator(events, 10)  # 10 items per page
+        page = request.GET.get('page')
+        print(page)
+        try:
+            paginated_data = paginator.page(page)
+        except PageNotAnInteger:
+            paginated_data = paginator.page(1)
+        except EmptyPage:
+            paginated_data = paginator.page(paginator.num_pages)
+        return render(request, template_name, {"events": paginated_data, "query": query})
     events = Event.objects.all()[:10]
     return render(request, template_name, {"events": events})
 

@@ -30,25 +30,32 @@
                     <div class="lh-content">
                         <h3><a href="#">{{event.name}}</a></h3>
                         <h6><a href="#">{{event.location}}</a></h6>
-                        <p>{{event.description}}</p>
+                        <a>Posted by: {{event.posted_by}}</a>
                     </div>
                     <form action="{% url 'detail' %}" class="p-5 bg-white" method="post">
-                        <button class="btn btn-primary text-white" type="submit" name="event" value="{{event.id}}">more
-                            detail
+                        <button class="btn btn-primary text-white" type="submit" name="event" value="{{event.id}}">
+                            more detail
                         </button>
                     </form>
                 </div>
                 {% endfor %}
                 <div class="col-12 mt-5 text-center">
-                    <div class="custom-pagination">
-                        <span>1</span>
-                        <a href="#">2</a>
-                        <a href="#">3</a>
-                        <span class="more-page">...</span>
-                        <a href="#">10</a>
+                    <div>
+                        <span class="step-links">
+                            {% if events.has_previous %}
+                                <a href="?search={{query}}&page={{ events.previous_page_number }}">previous</a>
+                            {% endif %}
+
+                            <span class="current">
+                                Page {{ events.number }} of {{ events.paginator.num_pages }}.
+                            </span>
+
+                            {% if events.has_next %}
+                                <a href="?search={{query}}&page={{ events.next_page_number }}">next</a>
+                            {% endif %}
+                        </span>
                     </div>
                 </div>
-
             </div>
             <div class="col-lg-3 ml-auto">
                 <div class="mb-5">
@@ -59,17 +66,6 @@
                                    class="form-control">
                         </div>
                     </form>
-<!--                    <form action="#" method="post">-->
-<!--                        <div class="form-group">-->
-<!--                            <div class="select-wrap">-->
-<!--                                <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>-->
-<!--                                <select class="form-control" name="" id="">-->
-<!--                                    <option value="">Time</option>-->
-<!--                                    <option value="">Name</option>-->
-<!--                                </select>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </form>-->
                 </div>
             </div>
 
@@ -142,6 +138,7 @@
                 minLength: 2, // Minimum characters before triggering autocomplete
             });
         });
+
 </script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
