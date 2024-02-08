@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login as auth_login
 from django.shortcuts import render
-from .models import Event
+from .models import Event, Participation, Participant
 from django.contrib.auth.decorators import login_required
 
 
@@ -60,6 +60,15 @@ def get_detail(request):
     if request.method == 'POST':
         _id = request.POST.get('event')
         _event = Event.objects.get(id=_id)
+        if request.POST.get("first_name"):
+            first_name = request.POST.get("first_name")
+            last_name = request.POST.get("last_name")
+            email = request.POST.get("email")
+            phone_number = request.POST.get("phone")
+            participant = Participant(first_name=first_name, last_name=last_name, email=email,
+                                      phone_number=phone_number)
+            participant.save()
+            Participation(participant=participant, event=_event).save()
     return render(request, template_name, {"event": _event})
 
 # Create your views here.

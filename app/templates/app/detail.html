@@ -22,103 +22,50 @@
 <div class="site-section">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-7">
 
                 <div class="mb-5 border-bottom pb-5">
                     <p><img src="{% static '/app/images/event_01.png' %}" alt="Image" class="img-fluid mb-4"></p>
                     <h3>Description</h3>
                     <p>{{event.description}}</p>
+                </div>
 
-                    <div class="row">
+            </div>
+
+
+            <div class="col-lg-4 ml-auto">
+                <form action="{% url 'detail' %}" class="p-1 bg-white" method="post">
+                    <div class="row form-group">
+                        <div class="col-md-6 mb-3 mb-md-0">
+                            <label class="text-black" for="first_name">First Name</label>
+                            <input type="text" id="first_name" name="first_name" class="form-control">
+                        </div>
                         <div class="col-md-6">
-                            <a href="#" class="btn btn-primary btn-md text-white">Contact Us</a>
+                            <label class="text-black" for="last_name">Last Name</label>
+                            <input type="text" id="last_name" name="last_name" class="form-control">
                         </div>
                     </div>
-                </div>
-
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            <label class="text-black" for="email">Email</label>
+                            <input type="email" id="email" name="email" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            <label class="text-black" for="phone">Phone</label>
+                            <input type="tel" id="phone" name="phone" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            <button class="btn btn-primary text-white" type="submit" name="event" value="{{event.id}}">
+                                Register
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="col-lg-3 ml-auto">
-
-                <div class="mb-5">
-                    <h3 class="h5 text-black mb-3">Filters</h3>
-                    <form action="#" method="post">
-                        <div class="form-group">
-                            <input type="text" placeholder="What are you looking for?" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <div class="select-wrap">
-                                <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>
-                                <select class="form-control" name="" id="">
-                                    <option value="">All Categories</option>
-                                    <option value="">Appartment</option>
-                                    <option value="">Restaurant</option>
-                                    <option value="">Eat &amp; Drink</option>
-                                    <option value="">Events</option>
-                                    <option value="">Fitness</option>
-                                    <option value="">Others</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <!-- select-wrap, .wrap-icon -->
-                            <div class="wrap-icon">
-                                <span class="icon icon-room"></span>
-                                <input type="text" placeholder="Location" class="form-control">
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="mb-5">
-                    <form action="#" method="post">
-                        <div class="form-group">
-                            <p>Radius around selected destination</p>
-                        </div>
-                        <div class="form-group">
-                            <input type="range" min="0" max="100" value="20" data-rangeslider>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="mb-5">
-                    <form action="#" method="post">
-                        <div class="form-group">
-                            <p>Category 'Restaurant' is selected</p>
-                            <p>More filters</p>
-                        </div>
-                        <div class="form-group">
-                            <ul class="list-unstyled">
-                                <li>
-                                    <label for="option1">
-                                        <input type="checkbox" id="option1">
-                                        Coffee
-                                    </label>
-                                </li>
-                                <li>
-                                    <label for="option2">
-                                        <input type="checkbox" id="option2">
-                                        Vegetarian
-                                    </label>
-                                </li>
-                                <li>
-                                    <label for="option3">
-                                        <input type="checkbox" id="option3">
-                                        Vegan Foods
-                                    </label>
-                                </li>
-                                <li>
-                                    <label for="option4">
-                                        <input type="checkbox" id="option4">
-                                        Sea Foods
-                                    </label>
-                                </li>
-                            </ul>
-                        </div>
-                    </form>
-                </div>
-
-            </div>
-
         </div>
     </div>
 </div>
