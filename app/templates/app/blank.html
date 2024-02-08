@@ -74,18 +74,29 @@ RSS Feed: https://feeds.feedburner.com/Free-templateco
 
                         <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
                             <li><a class="active" href="/"><span>Home</span></a></li>
+                            {% if request.user.is_authenticated %}
+                            <li class="has-children">
+                                <a href="/"><span>Event</span></a>
+                                <ul class="dropdown arrow-top">
+                                    <li><a href="#">My Events</a></li>
+                                    <li><a href="event">Create</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="#" data-toggle="modal"
+                                   data-target="#logoutModal"><span>Logout</span></a>
+                            </li>
+                            {% else %}
                             <li><a href="login"><span>Staff Sign In</span></a></li>
+                            {% endif %}
                         </ul>
                     </nav>
                 </div>
-
-
                 <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;"><a
                         href="#" class="site-menu-toggle js-menu-toggle text-white"><span
                         class="icon-menu h3"></span></a></div>
 
             </div>
-
         </div>
 </div>
 
@@ -99,6 +110,23 @@ RSS Feed: https://feeds.feedburner.com/Free-templateco
 </section>
 
 
+</div>
+
+
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" href="logout">Logout</a>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="{% static 'app/js/jquery-3.3.1.min.js' %}"></script>

@@ -11,33 +11,22 @@ from django.views import View
 from datetime import datetime
 from django.http import HttpResponse
 from .forms import ImportForm
+from django.contrib.auth import logout
+from django.shortcuts import redirect
 
 
-# Create your views here.
-# def login(request):
-#     _message = 'Please sign in'
-#     template_name = 'app/login.html'
-#     if request.method == 'POST':
-#         username = request.POST.get('username')
-#         password = request.POST.get('password')
-#         user = authenticate(username=username, password=password)
-#         if user is not None and user.is_active:
-#             auth_login(request, user)
-#             return render(request, 'app/login.html')
-#         else:
-#             _message = 'Invalid username or password, please try again.'
-#     return render(request, template_name, context={'message': _message})
+def custom_logout(request):
+    logout(request)
+    return redirect('home')
 
 
 def home(request):
     template_name = 'app/home.html'
     if request.method == 'GET':
         query = request.GET.get('search', '')
-        print(query)
         events = Event.objects.filter(name__icontains=query)
         paginator = Paginator(events, 10)  # 10 items per page
         page = request.GET.get('page')
-        print(page)
         try:
             paginated_data = paginator.page(page)
         except PageNotAnInteger:
@@ -131,9 +120,3 @@ def import_events(request):
                     events_added += 1
             return render(request, 'event.html', {'form': ImportForm()})
     return render(request, 'event.html', {'form': form})
-
-
-class EventAutocomplete(View):
-    def get(self, request):
-        print('hiiiiiii')
-        template_name = 'app/home.html'
