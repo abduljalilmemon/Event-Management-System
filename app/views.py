@@ -5,8 +5,8 @@ from django.contrib.auth.decorators import login_required
 import csv
 import os
 import io
+from django.views import View
 from datetime import datetime
-from django.core.files import File
 from django.http import HttpResponse
 from .forms import ImportForm
 
@@ -29,7 +29,11 @@ from .forms import ImportForm
 
 def home(request):
     template_name = 'app/home.html'
-    events = Event.objects.all()
+    if request.method == 'GET':
+        query = request.GET.get('search', '')
+        events = Event.objects.filter(name__icontains=query)[:10]
+        return render(request, template_name, {"events": events})
+    events = Event.objects.all()[:10]
     return render(request, template_name, {"events": events})
 
 
@@ -102,18 +106,22 @@ def import_events(request):
                     formatted_date = date_object.strftime("%Y-%m-%d %H:%M:%S")
                     new_event = Event.objects.get_or_create(name=title, location=location, time=formatted_date,
                                                             description=description, posted_by=request.user.staff)
-                # Handle image
-                # image_name = row.get('image', '')
-                # if image_name:
-                #     image_path = os.path.join('path/to/your/images', image_name)
-                #     if os.path.exists(image_path):
-                #         event.image.save(image_name, File(open(image_path, 'rb')))
-                #     else:
-                #         # Use default placeholder image
-                #         event.image = 'default_image.png'
-                #
+                    # Handle image
+                    # image_name = row.get('image', '')
+                    # if image_name:
+                    #     image_path = os.path.join('path/to/your/images', image_name)
+                    #     if os.path.exists(image_path):
+                    #         event.image.save(image_name, File(open(image_path, 'rb')))
+                    #     else:
+                    #         # Use default placeholder image
+                    #         event.image = 'default_image.png'
+                    #
                     events_added += 1
             return render(request, 'event.html', {'form': ImportForm()})
     return render(request, 'event.html', {'form': form})
 
-# Create your views here.
+
+class EventAutocomplete(View):
+    def get(self, request):
+        print('hiiiiiii')
+        template_name = 'app/home.html'
