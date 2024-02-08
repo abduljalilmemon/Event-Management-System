@@ -33,7 +33,9 @@
                         <p>{{event.description}}</p>
                     </div>
                     <form action="{% url 'detail' %}" class="p-5 bg-white" method="post">
-                        <button class="btn btn-primary text-white" type="submit" name="event" value="{{event.id}}">more detail</button>
+                        <button class="btn btn-primary text-white" type="submit" name="event" value="{{event.id}}">more
+                            detail
+                        </button>
                     </form>
                 </div>
                 {% endfor %}

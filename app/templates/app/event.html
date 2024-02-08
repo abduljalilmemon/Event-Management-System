@@ -20,8 +20,6 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 mb-5" data-aos="fade">
-
-
                 <form action="{% url 'event' %}" method="POST" class="p-5 bg-white" style="margin-top: -150px;">
                     {% csrf_token %}
                     <div class="row form-group">
@@ -62,4 +60,22 @@
         </div>
     </div>
 </div>
+
+
+<div class="site-section bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mb-5" data-aos="fade">
+                <form method="POST" enctype="multipart/form-data" action="{% url 'import_events' %}" class="p-5 bg-white"
+                      style="margin-top: -150px;">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary text-white" name="event">upload</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 {% endblock %}

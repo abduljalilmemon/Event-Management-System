@@ -2,6 +2,13 @@ from django.contrib.auth import authenticate, login as auth_login
 from django.shortcuts import render
 from .models import Event, Participation, Participant
 from django.contrib.auth.decorators import login_required
+import csv
+import os
+import io
+from datetime import datetime
+from django.core.files import File
+from django.http import HttpResponse
+from .forms import ImportForm
 
 
 # Create your views here.
@@ -37,7 +44,8 @@ def event(request):
         if request.user.staff:
             Event(name=title, location=location, time=time, description=description,
                   posted_by=request.user.staff).save()
-    return render(request, template_name)
+    form = ImportForm()
+    return render(request, template_name, {'form': form})
 
 
 def login(request):
@@ -69,6 +77,43 @@ def get_detail(request):
                                       phone_number=phone_number)
             participant.save()
             Participation(participant=participant, event=_event).save()
+
     return render(request, template_name, {"event": _event})
+
+
+@login_required
+def import_events(request):
+    if request.method == 'POST':
+        form = ImportForm(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES.get('csv_file')
+            if not csv_file.name.endswith('.csv'):
+                return HttpResponse('File is not a CSV')
+            events_added = 0
+            file = csv_file.read().decode('utf-8')
+            csv_reader = csv.DictReader(io.StringIO(file))
+            for _event in csv_reader:
+                title = _event.get('name')
+                description = _event.get('description')
+                time = _event.get('date')
+                location = _event.get('location')
+                if request.user.staff:
+                    date_object = datetime.strptime(time, "%m/%d/%Y")
+                    formatted_date = date_object.strftime("%Y-%m-%d %H:%M:%S")
+                    new_event = Event.objects.get_or_create(name=title, location=location, time=formatted_date,
+                                                            description=description, posted_by=request.user.staff)
+                # Handle image
+                # image_name = row.get('image', '')
+                # if image_name:
+                #     image_path = os.path.join('path/to/your/images', image_name)
+                #     if os.path.exists(image_path):
+                #         event.image.save(image_name, File(open(image_path, 'rb')))
+                #     else:
+                #         # Use default placeholder image
+                #         event.image = 'default_image.png'
+                #
+                    events_added += 1
+            return render(request, 'event.html', {'form': ImportForm()})
+    return render(request, 'event.html', {'form': form})
 
 # Create your views here.
