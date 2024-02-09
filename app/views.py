@@ -70,7 +70,6 @@ def event(request):
         if request.user.staff:
             new_event, created = Event.objects.get_or_create(name=title, location=location, time=time,
                                                              description=description, posted_by=request.user.staff)
-            print(created)
     return render(request, template_name, {'form': form, "event": created})
 
 
@@ -122,7 +121,7 @@ def import_events(request):
                 description = _event.get('description')
                 time = _event.get('date')
                 location = _event.get('location')
-                if request.user.staff:
+                if request.user.staff and not Event.objects.get(name=title):
                     date_object = datetime.strptime(time, "%m/%d/%Y")
                     formatted_date = date_object.strftime("%Y-%m-%d %H:%M:%S")
                     new_event, created = Event.objects.get_or_create(name=title, location=location, time=formatted_date,
