@@ -1,4 +1,4 @@
-# Event-Management-System
+# Event Management System
 
 Description:
 
@@ -30,6 +30,7 @@ python manage.py runserver
 
 Then go to the browser and enter the url **http://127.0.0.1:8000/**
 
+Use **Events.csv** for importing events
 
 ## Login
 
@@ -38,6 +39,7 @@ The username is their name and password for everyone is 'admin12345'.
 
 Example usernames:  
 - 'abdul'
+- 'haseeb'
 
 You can access the django admin page at **http://127.0.0.1:8000/admin** and login with username 'admin' and the above password.
 
