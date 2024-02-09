@@ -97,11 +97,9 @@ def get_detail(request):
             last_name = request.POST.get("last_name")
             email = request.POST.get("email")
             phone_number = request.POST.get("phone")
-            participant = Participant(first_name=first_name, last_name=last_name, email=email,
-                                      phone_number=phone_number)
-            participant.save()
-            Participation(participant=participant, event=_event).save()
-
+            participant, created = Participant.objects.get_or_create(first_name=first_name, last_name=last_name,
+                                                                     email=email, phone_number=phone_number)
+            Participation.objects.get_or_create(participant=participant, event=_event)
     return render(request, template_name, {"event": _event})
 
 
