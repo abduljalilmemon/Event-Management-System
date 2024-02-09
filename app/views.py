@@ -73,7 +73,7 @@ def event(request):
 
 
 def login(request):
-    _message = 'Please sign in'
+    _message = ''
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -84,7 +84,7 @@ def login(request):
         else:
             _message = 'Invalid username or password, please try again.'
     template_name = 'app/login.html'
-    return render(request, template_name)
+    return render(request, template_name, {"message": _message})
 
 
 def get_detail(request):
