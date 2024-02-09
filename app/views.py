@@ -52,9 +52,9 @@ def get_my_event(request):
         except EmptyPage:
             paginated_data = paginator.page(paginator.num_pages)
         return render(request, template_name,
-                      {"events": paginated_data, "query": query, 'total': Event.objects.count()})
-    events = Event.objects.filer(posted_by=request.user.staff)[:10]
-    return render(request, template_name, {"events": events, 'total': Event.objects.count()})
+                      {"events": paginated_data, "query": query, 'total': len(events)})
+    events = Event.objects.filer(posted_by=request.user.staff)
+    return render(request, template_name, {"events": events[:10], 'total': len(events)})
 
 
 @login_required
