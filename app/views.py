@@ -60,16 +60,18 @@ def get_my_event(request):
 @login_required
 def event(request):
     template_name = 'app/event.html'
+    form = ImportForm()
+    created = False
     if request.method == 'POST':
         title = request.POST.get("title")
         description = request.POST.get("description")
         time = request.POST.get("time")
         location = request.POST.get("location")
         if request.user.staff:
-            Event(name=title, location=location, time=time, description=description,
-                  posted_by=request.user.staff).save()
-    form = ImportForm()
-    return render(request, template_name, {'form': form})
+            new_event, created = Event.objects.get_or_create(name=title, location=location, time=time,
+                                                             description=description, posted_by=request.user.staff)
+            print(created)
+    return render(request, template_name, {'form': form, "event": created})
 
 
 def login(request):
@@ -105,6 +107,7 @@ def get_detail(request):
 
 @login_required
 def import_events(request):
+    template_name = "app/event.html"
     if request.method == 'POST':
         form = ImportForm(request.POST, request.FILES)
         if form.is_valid():
@@ -122,8 +125,12 @@ def import_events(request):
                 if request.user.staff:
                     date_object = datetime.strptime(time, "%m/%d/%Y")
                     formatted_date = date_object.strftime("%Y-%m-%d %H:%M:%S")
-                    new_event = Event.objects.get_or_create(name=title, location=location, time=formatted_date,
-                                                            description=description, posted_by=request.user.staff)
+                    new_event, created = Event.objects.get_or_create(name=title, location=location, time=formatted_date,
+                                                                     description=description,
+                                                                     posted_by=request.user.staff)
+                    if created:
+                        events_added += 1
+
                     # Handle image
                     # image_name = row.get('image', '')
                     # if image_name:
@@ -134,6 +141,5 @@ def import_events(request):
                     #         # Use default placeholder image
                     #         event.image = 'default_image.png'
                     #
-                    events_added += 1
-            return render(request, 'event.html', {'form': ImportForm()})
-    return render(request, 'event.html', {'form': form})
+            return render(request, template_name, {'form': ImportForm(), 'total_added': events_added})
+    return render(request, template_name, {'form': form})

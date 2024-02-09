@@ -52,7 +52,11 @@
 
                     <div class="row form-group">
                         <div class="col-md-12">
-                            <input type="submit" value="Create" class="btn btn-primary btn-md text-white">
+                            <input type="submit" value="Create" class="btn btn-primary text-white">
+                            {% if event %}
+                            <span class="caption mb-2"
+                                  style="margin-left:2%;">Event Created Successfully</span>
+                            {% endif %}
                         </div>
                     </div>
 
@@ -74,6 +78,9 @@
                     {% csrf_token %}
                     {{ form.as_p }}
                     <button type="submit" class="btn btn-primary text-white" name="event">upload</button>
+                    {% if total_added %}
+                    <span class="caption mb-2" style="margin-left:2%;">Added {{total_added}} Events</span>
+                    {% endif %}
                 </form>
             </div>
         </div>
