@@ -8,7 +8,7 @@ import csv
 import io
 from datetime import datetime
 from django.http import HttpResponse
-from .forms import ImportForm
+from .forms import ImportForm, AddParticipantForm
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 
@@ -101,7 +101,8 @@ def get_detail(request):
             participant, created = Participant.objects.get_or_create(first_name=first_name, last_name=last_name,
                                                                      email=email, phone_number=phone_number)
             Participation.objects.get_or_create(participant=participant, event=_event)
-    return render(request, template_name, {"event": _event})
+    form = AddParticipantForm()
+    return render(request, template_name, {"event": _event, 'form': form})
 
 
 @login_required

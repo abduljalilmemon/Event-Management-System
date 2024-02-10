@@ -36,11 +36,24 @@ class Event(models.Model):
         return self.name
 
 
+def get_profile_image_filepath(self, filename):
+    return 'app/images/profile_images/' + str(self.pk) + '/profile_image.png'
+
+
+def get_default_profile_image():
+    return "app/images/person_2.jpg"
+
+
 class Participant(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     email = models.EmailField(max_length=50, unique=True)
     phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True)
+    profile_image = models.ImageField(max_length=255, upload_to=get_profile_image_filepath, null=True, blank=True,
+                                      default=get_default_profile_image)
+
+    def get_profile_image_filename(self):
+        return str(self.profile_image)[str(self.profile_image).index('profile_images/' + str(self.pk) + "/"):]
 
 
 class Participation(models.Model):
