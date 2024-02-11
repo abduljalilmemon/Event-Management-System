@@ -49,7 +49,7 @@ class Participant(models.Model):
     last_name = models.CharField(max_length=100)
     email = models.EmailField(max_length=50, unique=True)
     phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True)
-    profile_image = models.ImageField(upload_to="images/", null=True, blank=True)
+    profile_image = models.ImageField(upload_to="profile_images/", null=True, blank=True)
 
     def get_profile_image_filename(self):
         return str(self.profile_image)[str(self.profile_image).index('profile_images/' + str(self.pk) + "/"):]
