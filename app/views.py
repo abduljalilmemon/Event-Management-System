@@ -90,6 +90,7 @@ def login(request):
 
 def get_detail(request):
     template_name = 'app/detail.html'
+    participants = []
     if request.method == 'POST':
         _id = request.POST.get('event')
         _event = Event.objects.get(id=_id)
@@ -100,8 +101,11 @@ def get_detail(request):
         if email:
             participant = Participant.objects.get(email=email)
             Participation.objects.get_or_create(participant=participant, event=_event)
+        if request.user.is_authenticated and _event.posted_by == request.user.staff:
+            _participants = Participation.objects.filter(event=_event).all()
+            participants = [participant.participant for participant in _participants]
     form = AddParticipantForm()
-    return render(request, template_name, {"event": _event, 'form': form})
+    return render(request, template_name, {"event": _event, 'form': form, 'participants': participants})
 
 
 @login_required

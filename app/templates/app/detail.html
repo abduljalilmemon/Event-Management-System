@@ -21,27 +21,22 @@
 <div class="site-section">
     <div class="container">
         <div class="row">
+            {% if not request.user.is_authenticated %}
             <div class="col-lg-7">
-
                 <div class="mb-5 border-bottom pb-5">
                     <p><img src="{% static '/app/images/event_01.png' %}" alt="Image" class="img-fluid mb-4"></p>
                     <h3>Description</h3>
                     <p>{{event.description}}</p>
                 </div>
-
             </div>
-
-
             <div class="col-lg-4 ml-auto">
                 <form method="post" class="p-1 bg-white" enctype='multipart/form-data'>
-
-
                     {% csrf_token %}
-<!--                    <div class="image-container" id="id_image_container">-->
-<!--                        <img class="border border-dark rounded-circle img-fluid mx-auto profile-image"-->
-<!--                             src="{% static '/app/images/person_1.jpg' %}">-->
-<!--                        {{ form.profile_image }}-->
-<!--                    </div>-->
+                    <!--                    <div class="image-container" id="id_image_container">-->
+                    <!--                        <img class="border border-dark rounded-circle img-fluid mx-auto profile-image"-->
+                    <!--                             src="{% static '/app/images/person_1.jpg' %}">-->
+                    <!--                        {{ form.profile_image }}-->
+                    <!--                    </div>-->
                     <div class="row form-group">
                         <div class="col-md-6 mb-3 mb-md-0">
                             <label class="text-black">First Name</label>
@@ -80,7 +75,56 @@
                 </form>
             </div>
         </div>
+        {% else %}
+        <div>
+                <div class="mb-5 border-bottom pb-5">
+                    <p><img src="{% static '/app/images/event_01.png' %}" alt="Image" class="img-fluid mb-4"></p>
+                    <h3>Description</h3>
+                    <p>{{event.description}}</p>
+                </div>
+            </div>
+        {% endif %}
     </div>
 </div>
+
+
+{% if request.user.is_authenticated %}
+
+<div class="site-section bg-light">
+    <div class="text-center" style="margin: auto;">
+        <h3>Participants</h3>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mb-5" data-aos="fade">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Photo</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for participant in participants %}
+                    <tr>
+                        <td><img src="{{ participant.profile_image.url }}" class="img-fluid"
+                                 style="border-radius: 50%; height:30px; width: 30px; margin-left: 8px"></td>
+                        <td>{{ participant.first_name }}</td>
+                        <td>{{ participant.last_name }}</td>
+                        <td>{{ participant.email }}</td>
+                        <td>{{ participant.phone_number }}</td>
+                    </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
 
 {% endblock %}
