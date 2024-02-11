@@ -33,27 +33,41 @@
 
 
             <div class="col-lg-4 ml-auto">
-                <form action="{% url 'detail' %}" class="p-1 bg-white" method="post">
+                <form method="post" class="p-1 bg-white" enctype='multipart/form-data'>
+
+
+                    {% csrf_token %}
+<!--                    <div class="image-container" id="id_image_container">-->
+<!--                        <img class="border border-dark rounded-circle img-fluid mx-auto profile-image"-->
+<!--                             src="{% static '/app/images/person_1.jpg' %}">-->
+<!--                        {{ form.profile_image }}-->
+<!--                    </div>-->
                     <div class="row form-group">
                         <div class="col-md-6 mb-3 mb-md-0">
-                            <label class="text-black" for="first_name">First Name</label>
-                            <input type="text" id="first_name" name="first_name" class="form-control">
+                            <label class="text-black">First Name</label>
+                            {{ form.first_name }}
                         </div>
                         <div class="col-md-6">
-                            <label class="text-black" for="last_name">Last Name</label>
-                            <input type="text" id="last_name" name="last_name" class="form-control">
+                            <label class="text-black">Last Name</label>
+                            {{ form.last_name }}
                         </div>
                     </div>
                     <div class="row form-group">
                         <div class="col-md-12">
-                            <label class="text-black" for="email">Email</label>
-                            <input type="email" id="email" name="email" class="form-control">
+                            <label class="text-black">Email</label>
+                            {{ form.email }}
                         </div>
                     </div>
                     <div class="row form-group">
                         <div class="col-md-12">
-                            <label class="text-black" for="phone">Phone</label>
-                            <input type="tel" id="phone" name="phone" class="form-control">
+                            <label class="text-black">Phone</label>
+                            {{ form.phone_number }}
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            <label class="text-black">Upload Image</label>
+                            {{ form.profile_image }}
                         </div>
                     </div>
                     <div class="row form-group">

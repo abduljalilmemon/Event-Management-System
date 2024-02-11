@@ -11,3 +11,6 @@ class AddParticipantForm(forms.ModelForm):
     class Meta:
         model = Participant
         fields = '__all__'
+
+    def clean_email(self):
+        return self.cleaned_data.get('email')

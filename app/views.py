@@ -91,16 +91,25 @@ def login(request):
 def get_detail(request):
     template_name = 'app/detail.html'
     if request.method == 'POST':
+        form = AddParticipantForm(request.POST, request.FILES)
+        form.non_field_errors()
+        field_errors = [(field.label, field.errors) for field in form]
+        print(field_errors)
+        if form.is_valid():
+            form.save()
         _id = request.POST.get('event')
         _event = Event.objects.get(id=_id)
-        if request.POST.get("first_name"):
-            first_name = request.POST.get("first_name")
-            last_name = request.POST.get("last_name")
-            email = request.POST.get("email")
-            phone_number = request.POST.get("phone")
-            participant, created = Participant.objects.get_or_create(first_name=first_name, last_name=last_name,
-                                                                     email=email, phone_number=phone_number)
-            Participation.objects.get_or_create(participant=participant, event=_event)
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+        email = request.POST.get("email")
+        phone_number = request.POST.get("phone_number")
+        profile_image = request.POST.get("profile_image")
+        print(first_name, last_name, email, phone_number, profile_image)
+
+        # participant, created = Participant.objects.get_or_create(first_name=first_name, last_name=last_name,
+        #                                                          email=email, phone_number=phone_number,
+        #                                                          profile_image=profile_image)
+        # Participation.objects.get_or_create(participant=participant, event=_event)
     form = AddParticipantForm()
     return render(request, template_name, {"event": _event, 'form': form})
 
