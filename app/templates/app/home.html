@@ -66,6 +66,10 @@
                                    class="form-control">
                         </div>
                     </form>
+                    <p>Sort by:
+                        <a href="?sort=name{% if sort_by == 'name' %}&sort=name{% endif %}">Name</a> |
+                        <a href="?sort=time{% if sort_by == 'time' %}&sort=time{% endif %}">Date</a> |
+                    </p>
                 </div>
             </div>
         </div>
@@ -77,19 +81,19 @@
     <div class="container">
         <div class="row justify-content-center mb-5">
             <div class="col-md-7 text-center border-primary"/>
-            </div>
-        </div>
-
-        <div class="row align-items-center">
-            <div class="col-6 col-sm-6 col-md-4 mb-4" style="margin: auto;">
-                <a class="popular-category h-100">
-                    <span class="icon mb-3"><span class="flaticon-microphone"></span></span>
-                    <span class="caption mb-2 d-block">Events</span>
-                    <span class="number">{{total}}</span>
-                </a>
-            </div>
         </div>
     </div>
+
+    <div class="row align-items-center">
+        <div class="col-6 col-sm-6 col-md-4 mb-4" style="margin: auto;">
+            <a class="popular-category h-100">
+                <span class="icon mb-3"><span class="flaticon-microphone"></span></span>
+                <span class="caption mb-2 d-block">Events</span>
+                <span class="number">{{total}}</span>
+            </a>
+        </div>
+    </div>
+</div>
 </div>
 
 <script>
@@ -99,6 +103,7 @@
                 minLength: 2, // Minimum characters before triggering autocomplete
             });
         });
+
 </script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

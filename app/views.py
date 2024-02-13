@@ -20,9 +20,10 @@ def custom_logout(request):
 
 def home(request):
     template_name = 'app/home.html'
+    sort_by = request.GET.get('sort', 'name')
     if request.method == 'GET':
         query = request.GET.get('search', '')
-        events = Event.objects.filter(name__icontains=query)
+        events = Event.objects.filter(name__icontains=query).order_by(sort_by)
         paginator = Paginator(events, 10)
         page = request.GET.get('page')
         try:
@@ -33,8 +34,8 @@ def home(request):
             paginated_data = paginator.page(paginator.num_pages)
         return render(request, template_name,
                       {"events": paginated_data, "query": query, 'total': Event.objects.count()})
-    events = Event.objects.all()[:10]
-    return render(request, template_name, {"events": events, 'total': Event.objects.count()})
+    events = Event.objects.all().order_by(sort_by)[:10]
+    return render(request, template_name, {"events": events, 'total': Event.objects.count(), "sort": sort_by})
 
 
 @login_required
