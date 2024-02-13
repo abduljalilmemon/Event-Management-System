@@ -17,7 +17,13 @@ This Django-based Event Management System empowers users to effortlessly organiz
 Python and Django need to be installed
 
 ```bash
-pip install django
+pip install -r .\requirements.txt 
+```
+
+or
+
+```bash
+pip install -r requirements.txt 
 ```
 
 ## Usage
