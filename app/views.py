@@ -18,7 +18,10 @@ def custom_logout(request):
     return redirect('home')
 
 
-def home(request):
+# def get_events():
+
+
+def get_events(request):
     template_name = 'app/home.html'
     sort_by = request.GET.get('sort', 'name')
     if request.method == 'GET':
@@ -60,7 +63,7 @@ def get_my_event(request):
 
 
 @login_required
-def event(request):
+def create_event(request):
     template_name = 'app/event.html'
     form = ImportForm()
     created = False
