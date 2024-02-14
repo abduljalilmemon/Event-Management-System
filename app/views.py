@@ -41,9 +41,10 @@ def home(request):
 @login_required
 def get_my_event(request):
     template_name = 'app/myevent.html'
+    sort_by = request.GET.get('sort', 'name')
     if request.method == 'GET':
         query = request.GET.get('search', '')
-        events = Event.objects.filter(name__icontains=query, posted_by=request.user.staff)
+        events = Event.objects.filter(name__icontains=query, posted_by=request.user.staff).order_by(sort_by)
         paginator = Paginator(events, 10)
         page = request.GET.get('page')
         try:
@@ -54,7 +55,7 @@ def get_my_event(request):
             paginated_data = paginator.page(paginator.num_pages)
         return render(request, template_name,
                       {"events": paginated_data, "query": query, 'total': len(events)})
-    events = Event.objects.filer(posted_by=request.user.staff)
+    events = Event.objects.filer(posted_by=request.user.staff).order_by(sort_by)
     return render(request, template_name, {"events": events[:10], 'total': len(events)})
 
 

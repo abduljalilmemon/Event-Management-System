@@ -66,6 +66,10 @@
                                    class="form-control">
                         </div>
                     </form>
+                    <p>Sort by:
+                        <a href="?sort=name{% if sort_by == 'name' %}&sort=name{% endif %}">Name</a> |
+                        <a href="?sort=time{% if sort_by == 'time' %}&sort=time{% endif %}">Date</a> |
+                    </p>
                 </div>
             </div>
         </div>
