@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate, login as auth_login
 from django.shortcuts import render
 from .models import Event, Participation, Participant
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 import csv
@@ -10,7 +11,7 @@ from datetime import datetime
 from django.http import HttpResponse
 from .forms import ImportForm, AddParticipantForm
 from django.contrib.auth import logout
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 
 
 def custom_logout(request):
@@ -18,7 +19,15 @@ def custom_logout(request):
     return redirect('home')
 
 
-# def get_events():
+def delete_post(request, id):
+    post = get_object_or_404(Event, pk=id)
+    context = {'post': post}
+    if request.method == 'GET':
+        return render(request, 'blog/post_confirm_delete.html', context)
+    elif request.method == 'POST':
+        post.delete()
+        messages.success(request, 'The post has been deleted successfully.')
+        return redirect('posts')
 
 
 def get_events(request):
@@ -45,6 +54,8 @@ def get_events(request):
 def get_my_event(request):
     template_name = 'app/myevent.html'
     sort_by = request.GET.get('sort', 'name')
+    if request.method == 'DELETE':
+        pass
     if request.method == 'GET':
         query = request.GET.get('search', '')
         events = Event.objects.filter(name__icontains=query, posted_by=request.user.staff).order_by(sort_by)
