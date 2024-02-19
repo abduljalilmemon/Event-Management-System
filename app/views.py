@@ -141,7 +141,7 @@ def import_events(request):
                 description = _event.get('description')
                 time = _event.get('date')
                 location = _event.get('location')
-                if request.user.staff and not Event.objects.get(name=title):
+                if request.user.staff and not Event.objects.filter(name=title):
                     date_object = datetime.strptime(time, "%m/%d/%Y")
                     formatted_date = date_object.strftime("%Y-%m-%d %H:%M:%S")
                     new_event, created = Event.objects.get_or_create(name=title, location=location, time=formatted_date,

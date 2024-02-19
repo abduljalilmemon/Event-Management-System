@@ -12,7 +12,7 @@ urlpatterns = [
     path('logout', views.custom_logout, name='logout'),
     path('event', views.create_event, name='event'),
     path('detail', views.get_detail, name='detail'),
-    path('import_events', views.import_events, name='import_events'),
+    path('import-events', views.import_events, name='import-events'),
     path('my-event', views.get_my_event, name='my-event'),
 ]
 
